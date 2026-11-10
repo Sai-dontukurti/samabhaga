@@ -14,7 +14,7 @@ add_expense("me", 75, "bowling", ["sam","surya", "siva"])
 add_expense("me", 60, "dinner", ["raj", "me", "ana"])
 add_expense("ana", 30, "movies", ["ana", "raj"])
 
-print(expenses)
+#print(expenses)
 
 
 def calculate_balances(expenses):
@@ -32,4 +32,23 @@ def calculate_balances(expenses):
     return balances
 
 
-print(calculate_balances(expenses))
+#print(calculate_balances(expenses))
+
+
+def settle_up(balances):
+    remaining = balances.copy()
+    payments =[]
+
+    while abs(min(remaining.values()))> 0.01:
+        creditor = max(remaining, key=remaining.get)
+        debtor = min(remaining, key=remaining.get)
+        amount = min(remaining[creditor], abs(remaining[debtor]))
+        payments.append((debtor, creditor, amount))
+        remaining[creditor] = remaining[creditor] - amount
+        remaining[debtor] = remaining[debtor] + amount
+    return payments
+
+#print(settle_up(calculate_balances(expenses)))
+
+
+print(settle_up({"A":50, "B":30, "C" : -60, "D": -20}))
